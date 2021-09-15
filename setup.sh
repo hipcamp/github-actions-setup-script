@@ -13,6 +13,8 @@ do
     esac    
 done
 
+echo "Setting up $RUNNERS Runners"
+
 ## ROOTLESS DOCKER Runner Setup
 sudo add-apt-repository ppa:git-core/ppa -y
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
