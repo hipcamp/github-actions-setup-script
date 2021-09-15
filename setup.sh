@@ -27,6 +27,7 @@ sudo apt install -y uidmap
 sudo apt install -y dbus-user-session
 sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 sudo apt install -y docker-ce docker-ce-cli containerd.io
+sudo apt install -y build-essential
 sudo npm i -g yarn
 sudo apt upgrade -y
 # Add output to ~/.bashrc
