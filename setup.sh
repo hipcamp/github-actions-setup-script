@@ -27,14 +27,16 @@ sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo npm i -g yarn
 sudo apt upgrade -y
-dockerd-rootless-setuptool.sh install
 # Add output to ~/.bashrc
 echo '# Docker' >> ~/.bashrc
 echo "export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> ~/.bashrc
 echo 'export PATH=/usr/bin:$PATH' >> ~/.bashrc
 # ===
 . ~/.bashrc
+sudo systemctl stop --now docker.service docker.socket
 sudo systemctl disable --now docker.service docker.socket
+dockerd-rootless-setuptool.sh uninstall
+dockerd-rootless-setuptool.sh install
 systemctl --user start docker
 systemctl --user enable docker
 sudo loginctl enable-linger $(whoami)
