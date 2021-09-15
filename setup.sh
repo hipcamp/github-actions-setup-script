@@ -33,6 +33,7 @@ echo '# Docker' >> ~/.bashrc
 echo "export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> ~/.bashrc
 echo 'export PATH=/usr/bin:$PATH' >> ~/.bashrc
 # ===
+. ~/.bashrc
 sudo systemctl disable --now docker.service docker.socket
 systemctl --user start docker
 systemctl --user enable docker
