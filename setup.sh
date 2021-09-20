@@ -50,8 +50,8 @@ sudo systemctl stop --now docker.service docker.socket
 sudo systemctl disable --now docker.service docker.socket
 dockerd-rootless-setuptool.sh uninstall
 dockerd-rootless-setuptool.sh install
-systemctl --user start docker
-systemctl --user enable docker
+systemctl --user start --now --no-block docker
+systemctl --user enable --now --no-block docker
 sudo loginctl enable-linger $(whoami)
 sudo groupadd docker
 sudo usermod -aG docker ${USER}
