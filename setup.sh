@@ -62,8 +62,8 @@ for i in $(seq 1 "$RUNNERS")
 do
     echo "Setting up new runner: $(hostname)-$i"
     mkdir actions-runner-$i && cd actions-runner-$i
-    curl -o actions-runner-linux-x64-2.281.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.281.1/actions-runner-linux-x64-2.281.1.tar.gz
-    tar xzf ./actions-runner-linux-x64-2.281.1.tar.gz
+    curl -o actions-runner-linux-x64-2.282.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.282.1/actions-runner-linux-x64-2.282.1.tar.gz
+    tar xzf ./actions-runner-linux-x64-2.282.1.tar.gz
     sudo ./bin/installdependencies.sh
     ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
     echo "DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> .env
