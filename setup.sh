@@ -55,6 +55,8 @@ systemctl --user enable docker
 sudo loginctl enable-linger $(whoami)
 sudo groupadd docker
 sudo usermod -aG docker ${USER}
+sudo chown -R root:docker /opt
+sudo chmod -R 770 /opt
 # Docker System Prune Daily
 (crontab -u $(whoami) -l; echo "0 0 * * * /usr/bin/docker system prune -f --all" ) | crontab -u $(whoami) -
 
