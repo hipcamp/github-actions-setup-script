@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo su
 
 for ARGUMENT in "$@"
 do
@@ -13,7 +14,6 @@ do
     esac    
 done
 
-sudo su
 echo "Setting up $RUNNERS Runners"
 
 add-apt-repository ppa:git-core/ppa -y
