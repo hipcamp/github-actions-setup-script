@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo su
 
 for ARGUMENT in "$@"
 do
