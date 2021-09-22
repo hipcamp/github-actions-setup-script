@@ -67,6 +67,7 @@ do
     sudo ./bin/installdependencies.sh
     ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
     echo "DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> .env
+    echo "ImageOS=ubuntu20" >> .env
     sudo ./svc.sh install
     sudo ./svc.sh start
     cd ~
