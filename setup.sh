@@ -39,7 +39,7 @@ sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs
 sudo chmod +x /usr/local/bin/ecs-cli
 sudo wget -O /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.9.3/yq_linux_amd64
 sudo chmod +x /usr/local/bin/yq
-sudo apt-get install jq
+sudo apt-get install -y jq
 wget --quiet https://github.com/mozilla/sops/releases/download/v3.7.1/sops_3.7.1_amd64.deb
 sudo dpkg -i sops_3.7.1_amd64.deb
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
