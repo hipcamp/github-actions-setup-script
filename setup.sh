@@ -35,6 +35,11 @@ sudo apt-get install -y unzip
 sudo apt-get install -y rubygems
 sudo npm i -g yarn
 sudo apt-get upgrade -y
+sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+sudo chmod +x /usr/local/bin/ecs-cli
+sudo wget -O /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.9.3/yq_linux_amd64
+sudo chmod +x /usr/local/bin/yq
+sudo apt-get install jq
 wget --quiet https://github.com/mozilla/sops/releases/download/v3.7.1/sops_3.7.1_amd64.deb
 sudo dpkg -i sops_3.7.1_amd64.deb
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -57,6 +62,8 @@ sudo groupadd docker
 sudo usermod -aG docker ${USER}
 sudo chown -R root:docker /opt
 sudo chmod -R 770 /opt
+sudo chown -R root:docker /_work
+sudo chmod -R 770 /_work
 # Docker System Prune Daily
 (crontab -u $(whoami) -l; echo "0 0 * * * /usr/bin/docker system prune -f --all" ) | crontab -u $(whoami) -
 
@@ -67,7 +74,7 @@ do
     curl -o actions-runner-linux-x64-2.282.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.282.1/actions-runner-linux-x64-2.282.1.tar.gz
     tar xzf ./actions-runner-linux-x64-2.282.1.tar.gz
     sudo ./bin/installdependencies.sh
-    ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
+    ./config.sh --unattended --work /_work --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
     echo "DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> .env
     echo "ImageOS=ubuntu20" >> .env
     sudo ./svc.sh install
