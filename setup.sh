@@ -62,8 +62,6 @@ sudo groupadd docker
 sudo usermod -aG docker ${USER}
 sudo chown -R root:docker /opt
 sudo chmod -R 770 /opt
-sudo chown -R root:docker /_work
-sudo chmod -R 770 /_work
 # Docker System Prune Daily
 (crontab -u $(whoami) -l; echo "0 0 * * * /usr/bin/docker system prune -f --all" ) | crontab -u $(whoami) -
 
@@ -74,7 +72,7 @@ do
     curl -o actions-runner-linux-x64-2.282.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.282.1/actions-runner-linux-x64-2.282.1.tar.gz
     tar xzf ./actions-runner-linux-x64-2.282.1.tar.gz
     sudo ./bin/installdependencies.sh
-    ./config.sh --unattended --work /_work --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
+    ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
     echo "DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> .env
     echo "ImageOS=ubuntu20" >> .env
     sudo ./svc.sh install
