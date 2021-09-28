@@ -26,6 +26,8 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 sudo apt-get update -y
 sudo apt-get install git -y
 sudo apt-get install -y nodejs
+sudo apt-get install -y python2
+sudo apt-get install -y libpq-dev
 sudo apt-get install -y uidmap
 sudo apt-get install -y dbus-user-session
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
