@@ -57,7 +57,7 @@ sudo chmod -R 770 /opt
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 # Docker System Prune Daily
-(crontab -u $(whoami) -l; echo "0 0 * * * /usr/bin/docker system prune -f --all" ) | crontab -u $(whoami) -
+(sudo crontab -l; echo "@reboot /usr/bin/docker system prune -f --all" ) | sudo crontab -
 
 for i in $(seq 1 "$RUNNERS") 
 do
