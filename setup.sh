@@ -57,8 +57,7 @@ sudo chmod -R 770 /opt
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 # Docker System Prune Daily
-(sudo crontab -l; echo "@reboot /usr/bin/docker system prune -f --all" ) | sudo crontab -
-
+(sudo crontab -l 2>/dev/null; echo "@reboot /usr/bin/docker system prune -f --all") | sudo crontab -
 for i in $(seq 1 "$RUNNERS") 
 do
     echo "Setting up new runner: $(hostname)-$i"
