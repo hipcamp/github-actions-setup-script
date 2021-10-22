@@ -15,7 +15,7 @@ done
 
 echo "Setting up $RUNNERS Runners"
 
-## ROOTLESS DOCKER Runner Setup
+## DOCKER Runner Setup
 sudo add-apt-repository ppa:git-core/ppa -y
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -38,6 +38,7 @@ sudo apt-get install -y unzip
 sudo apt-get install -y rubygems
 sudo npm i -g yarn
 sudo apt-get upgrade -y
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
 sudo chmod +x /usr/local/bin/ecs-cli
 sudo wget --quiet -O /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.9.3/yq_linux_amd64
@@ -48,23 +49,13 @@ sudo dpkg -i sops_3.7.1_amd64.deb
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
-# Add output to ~/.bashrc
-echo '# Docker' >> ~/.bashrc
-echo "export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> ~/.bashrc
-echo 'export PATH=/usr/bin:$PATH' >> ~/.bashrc
-# ===
-. ~/.bashrc
-sudo systemctl stop --now docker.service docker.socket
-sudo systemctl disable --now docker.service docker.socket
-dockerd-rootless-setuptool.sh uninstall
-dockerd-rootless-setuptool.sh install
-systemctl --user start docker
-systemctl --user enable docker
 sudo loginctl enable-linger $(whoami)
 sudo groupadd docker
 sudo usermod -aG docker ${USER}
 sudo chown -R root:docker /opt
 sudo chmod -R 770 /opt
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
 # Docker System Prune Daily
 (crontab -u $(whoami) -l; echo "0 0 * * * /usr/bin/docker system prune -f --all" ) | crontab -u $(whoami) -
 
@@ -72,11 +63,10 @@ for i in $(seq 1 "$RUNNERS")
 do
     echo "Setting up new runner: $(hostname)-$i"
     mkdir actions-runner-$i && cd actions-runner-$i
-    curl -o actions-runner-linux-x64-2.282.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.282.1/actions-runner-linux-x64-2.282.1.tar.gz
-    tar xzf ./actions-runner-linux-x64-2.282.1.tar.gz
+    curl -o actions-runner-linux-x64-2.283.3.tar.gz -L https://github.com/actions/runner/releases/download/v2.283.3/actions-runner-linux-x64-2.283.3.tar.gz
+    tar xzf ./actions-runner-linux-x64-2.283.3.tar.gz
     sudo ./bin/installdependencies.sh
     ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
-    echo "DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock" >> .env
     echo "ImageOS=ubuntu20" >> .env
     sudo ./svc.sh install
     sudo ./svc.sh start
