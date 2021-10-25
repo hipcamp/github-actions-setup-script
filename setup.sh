@@ -65,7 +65,7 @@ do
     ./bin/installdependencies.sh
     RUNNER_ALLOW_RUNASROOT="true" ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
     echo "ImageOS=ubuntu20" >> .env
-    ./svc.sh install
+    ./svc.sh install $USER
     ./svc.sh start
     cd ~
 done
