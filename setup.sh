@@ -70,4 +70,4 @@ do
     cd ~
 done
 
-reboot
+shutdown
