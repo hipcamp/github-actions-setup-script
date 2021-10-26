@@ -37,7 +37,6 @@ apt-get install -y unzip
 apt-get install -y rubygems
 npm i -g yarn
 apt-get upgrade -y
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
 chmod +x /usr/local/bin/ecs-cli
 wget --quiet -O /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.9.3/yq_linux_amd64
