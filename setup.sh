@@ -21,8 +21,11 @@ curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compo
 chmod +x /usr/local/bin/docker-compose
 ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 apt-get update -y
 apt-get upgrade -y
+apt-get install -y nodejs
+npm i -g yarn
 apt-get install git -y
 apt-get install -y python2
 apt-get install -y libpq-dev
@@ -66,9 +69,5 @@ do
     ./svc.sh start
     cd ~
 done
-
-npm i -g yarn
-curl -fsSL https://deb.nodesource.com/setup_16.x | -E bash -
-apt-get install -y nodejs
 
 shutdown
