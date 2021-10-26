@@ -6,7 +6,7 @@ do
     VALUE=$(echo $ARGUMENT | cut -f2 -d=)   
     case "$KEY" in
             RUNNERS)              RUNNERS=${VALUE} ;;
-            GITHUB_URL)           GITHUB_URL=${VALUE} ;;
+            ORG)                  GITHUB_ORG=${VALUE} ;;
             LABELS)               LABELS=${VALUE} ;;
             *)   
     esac    
@@ -63,7 +63,8 @@ do
     tar xzf ./actions-runner-linux-x64-2.283.3.tar.gz
     ./bin/installdependencies.sh
     GITHUB_TOKEN=$(aws secretsmanager get-secret-value --secret-id GitHub/SELF_HOSTED_RUNNER_TOKEN | jq -r '.SecretString' | jq -r '.token')
-    RUNNER_ALLOW_RUNASROOT="true" ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $GITHUB_TOKEN --labels $LABELS
+    RUNNER_TOKEN=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/orgs/$GITHUB_ORG/actions/runners/registration-token | jq -r '.token')
+    RUNNER_ALLOW_RUNASROOT="true" ./config.sh --unattended --name $(hostname)-$i --url "https://github.com/$GITHUB_ORG" --token $RUNNER_TOKEN --labels $LABELS
     echo "ImageOS=ubuntu20" >> .env
     ./svc.sh install $USER
     ./svc.sh start
