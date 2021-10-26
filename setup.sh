@@ -7,7 +7,6 @@ do
     case "$KEY" in
             RUNNERS)              RUNNERS=${VALUE} ;;
             GITHUB_URL)           GITHUB_URL=${VALUE} ;;
-            TOKEN)                TOKEN=${VALUE} ;;
             LABELS)               LABELS=${VALUE} ;;
             *)   
     esac    
@@ -63,7 +62,8 @@ do
     curl -o actions-runner-linux-x64-2.283.3.tar.gz -L https://github.com/actions/runner/releases/download/v2.283.3/actions-runner-linux-x64-2.283.3.tar.gz
     tar xzf ./actions-runner-linux-x64-2.283.3.tar.gz
     ./bin/installdependencies.sh
-    RUNNER_ALLOW_RUNASROOT="true" ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $TOKEN --labels $LABELS
+    GITHUB_TOKEN=$(aws secretsmanager get-secret-value --secret-id GitHub/SELF_HOSTED_RUNNER_TOKEN | jq -r '.SecretString' | jq -r '.token')
+    RUNNER_ALLOW_RUNASROOT="true" ./config.sh --unattended --name $(hostname)-$i --url $GITHUB_URL --token $GITHUB_TOKEN --labels $LABELS
     echo "ImageOS=ubuntu20" >> .env
     ./svc.sh install $USER
     ./svc.sh start
