@@ -16,7 +16,6 @@ echo "Setting up $RUNNERS Runners"
 
 ## DOCKER Runner Setup
 add-apt-repository ppa:git-core/ppa -y
-curl -fsSL https://deb.nodesource.com/setup_14.x | -E bash -
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
@@ -25,6 +24,7 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 apt-get update -y
 apt-get upgrade -y
 apt-get install git -y
+curl -fsSL https://deb.nodesource.com/setup_16.x | -E bash -
 apt-get install -y nodejs
 apt-get install -y python2
 apt-get install -y libpq-dev
