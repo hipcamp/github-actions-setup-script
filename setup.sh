@@ -24,8 +24,6 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 apt-get update -y
 apt-get upgrade -y
 apt-get install git -y
-curl -fsSL https://deb.nodesource.com/setup_16.x | -E bash -
-apt-get install -y nodejs
 apt-get install -y python2
 apt-get install -y libpq-dev
 apt-get install -y uidmap
@@ -35,7 +33,6 @@ apt-get install -y docker-ce docker-ce-cli containerd.io
 apt-get install -y build-essential
 apt-get install -y unzip
 apt-get install -y rubygems
-npm i -g yarn
 apt-get upgrade -y
 curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
 chmod +x /usr/local/bin/ecs-cli
@@ -69,5 +66,9 @@ do
     ./svc.sh start
     cd ~
 done
+
+npm i -g yarn
+curl -fsSL https://deb.nodesource.com/setup_16.x | -E bash -
+apt-get install -y nodejs
 
 shutdown
