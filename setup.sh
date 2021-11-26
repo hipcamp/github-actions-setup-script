@@ -53,7 +53,7 @@ usermod -aG docker ${USER}
 systemctl enable docker.service
 systemctl enable containerd.service
 # Docker System Prune Daily
-(crontab -l 2>/dev/null; echo "@reboot sleep 60 && /usr/bin/docker system prune -f --all") | crontab -
+# (crontab -l 2>/dev/null; echo "@reboot sleep 60 && /usr/bin/docker system prune -f --all") | crontab -
 for i in $(seq 1 "$RUNNERS") 
 do
     echo "Setting up new runner: $(hostname)-$i"
