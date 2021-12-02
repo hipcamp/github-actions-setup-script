@@ -52,7 +52,34 @@ groupadd docker
 usermod -aG docker ${USER}
 systemctl enable docker.service
 systemctl enable containerd.service
-# Docker System Prune Daily
+# Docker System Prune
+cat > cleanup.sh << EOF
+#!/bin/bash
+if !(systemctl is-active --quiet docker.service)
+then
+    echo "Starting Docker Daemon"
+    systemctl start docker
+fi
+echo "Run Cleanup"
+docker system prune --all --force
+EOF
+chmod +x ./cleanup.sh
+cat > /etc/systemd/system/gha-cleanup.service << EOF
+[Unit]
+Description=Runs GHA Cleanup at Shutdown and Reboot
+DefaultDependencies=no
+Before=shutdown.target reboot.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/root/cleanup.sh
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
 # (crontab -l 2>/dev/null; echo "@reboot sleep 60 && /usr/bin/docker system prune -f --all") | crontab -
 for i in $(seq 1 "$RUNNERS") 
 do
