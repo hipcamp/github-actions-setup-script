@@ -80,6 +80,7 @@ TimeoutStartSec=0
 WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
+systemctl enable gha-cleanup.service
 # (crontab -l 2>/dev/null; echo "@reboot sleep 60 && /usr/bin/docker system prune -f --all") | crontab -
 for i in $(seq 1 "$RUNNERS") 
 do
