@@ -62,7 +62,7 @@ then
 fi
 echo "Run Cleanup"
 docker system prune --all --force
-docker volume rm $(docker volume ls -qf dangling=true)
+docker volume rm \$(docker volume ls -qf dangling=true)
 EOF
 chmod +x ./cleanup.sh
 cat > /etc/systemd/system/gha-cleanup.service << EOF
