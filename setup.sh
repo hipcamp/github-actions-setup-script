@@ -55,6 +55,9 @@ systemctl enable containerd.service
 # Docker System Prune
 cat > cleanup.sh << EOF
 #!/bin/bash
+
+systemctl stop actions.runner.*
+
 if !(systemctl is-active --quiet docker.service)
 then
     echo "Starting Docker Daemon"
