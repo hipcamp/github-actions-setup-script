@@ -56,7 +56,10 @@ systemctl enable containerd.service
 cat > cleanup.sh << EOF
 #!/bin/bash
 
-systemctl stop actions.runner.*
+# Disable GHA Service
+cd ~/actions-runner-1
+./svc.sh stop
+cd ~
 
 if !(systemctl is-active --quiet docker.service)
 then
@@ -65,7 +68,12 @@ then
 fi
 echo "Run Cleanup"
 docker system prune --all --force
-docker volume rm \$(docker volume ls -qf dangling=true)
+docker volume rm $(docker volume ls -qf dangling=true)
+
+# Re-Enable GHA Service
+cd ~/actions-runner-1
+./svc.sh start
+cd ~
 EOF
 chmod +x ./cleanup.sh
 cat > /etc/systemd/system/gha-cleanup.service << EOF
