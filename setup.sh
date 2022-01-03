@@ -67,8 +67,7 @@ then
     systemctl start docker
 fi
 echo "Run Cleanup"
-docker system prune --all --force
-docker volume rm \$(docker volume ls -qf dangling=true)
+docker system prune --all --volumes --force
 
 # Re-Enable GHA Service
 cd ~/actions-runner-1
